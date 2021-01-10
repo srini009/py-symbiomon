@@ -14,7 +14,7 @@ os.environ['OPT'] = " ".join(
 
 # Find out the dependencies using pkgconfig 
 # For client...
-pk = pkgconfig.parse('remi')
+pk = pkgconfig.parse('symbiomon')
 client_libraries    = pk['libraries']
 client_library_dirs = pk['library_dirs']
 client_include_dirs = pk['include_dirs']
@@ -33,31 +33,17 @@ fileset_include_dirs = pk['include_dirs']
 fileset_include_dirs.append('.')
 fileset_include_dirs.append(pybind11.get_include())
 
-pyremi_server_module = Extension('_pyremiserver', ["pyremi/src/server.cpp"],
-		           libraries=server_libraries,
-                   library_dirs=server_library_dirs,
-                   include_dirs=server_include_dirs,
-                   extra_compile_args=['-std=c++11'],
-                   depends=["pyremi/src/server.cpp"])
-
-pyremi_client_module = Extension('_pyremiclient', ["pyremi/src/client.cpp"],
+pysymbiomon_client_module = Extension('_pysymbiomonclient', ["pysymbiomon/src/client.cpp"],
 		           libraries=client_libraries,
                    library_dirs=client_library_dirs,
                    include_dirs=client_include_dirs,
                    extra_compile_args=['-std=c++11'],
-                   depends=["pyremi/src/client.cpp"])
+                   depends=["pysymbiomon/src/client.cpp"])
 
-pyremi_fileset_module = Extension('_pyremifileset', ["pyremi/src/fileset.cpp"],
-                    libraries=fileset_libraries,
-                    library_dirs=fileset_library_dirs,
-                    include_dirs=fileset_include_dirs,
-                    extra_compile_args=['-std=c++11'],
-                    depends=["pyremi/src/fileset.cpp"])
-
-setup(name='pyremi',
+setup(name='pysymbiomon',
       version='0.1.1',
-      author='Matthieu Dorier',
-      description="""Python binding for REMI""",
-      ext_modules=[ pyremi_server_module, pyremi_client_module, pyremi_fileset_module ],
-      packages=['pyremi']
+      author='Srinivasan Ramesh',
+      description="""Python binding for SYMBIOMON""",
+      ext_modules=[ pysymbiomon_client_module ],
+      packages=['pysymbiomon']
      )

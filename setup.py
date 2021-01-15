@@ -14,24 +14,12 @@ os.environ['OPT'] = " ".join(
 
 # Find out the dependencies using pkgconfig 
 # For client...
-pk = pkgconfig.parse('mochi-symbiomon')
+pk = pkgconfig.parse('symbiomon-client')
 client_libraries    = pk['libraries']
 client_library_dirs = pk['library_dirs']
 client_include_dirs = pk['include_dirs']
 client_include_dirs.append(".")
 client_include_dirs.append(pybind11.get_include())
-# For server...
-server_libraries    = pk['libraries']
-server_library_dirs = pk['library_dirs']
-server_include_dirs = pk['include_dirs']
-server_include_dirs.append(".")
-server_include_dirs.append(pybind11.get_include())
-# For filesets...
-fileset_libraries    = pk['libraries']
-fileset_library_dirs = pk['library_dirs']
-fileset_include_dirs = pk['include_dirs']
-fileset_include_dirs.append('.')
-fileset_include_dirs.append(pybind11.get_include())
 
 pysymbiomon_client_module = Extension('_pysymbiomonclient', ["pysymbiomon/src/client.cpp"],
 		           libraries=client_libraries,

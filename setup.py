@@ -14,7 +14,7 @@ os.environ['OPT'] = " ".join(
 
 # Find out the dependencies using pkgconfig 
 # For client...
-pk = pkgconfig.parse('symbiomon')
+pk = pkgconfig.parse('mochi-symbiomon')
 client_libraries    = pk['libraries']
 client_library_dirs = pk['library_dirs']
 client_include_dirs = pk['include_dirs']

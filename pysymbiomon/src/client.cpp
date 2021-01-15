@@ -18,17 +18,12 @@ typedef py11::capsule pymargo_addr;
 typedef py11::capsule pysymbiomon_client_t;
 typedef py11::capsule pysymbiomon_metric_handle_t;
 typedef py11::capsule pysymbiomon_taglist_t;
-//typedef py11::capsule pysymbiomon_metric_id_t;
-py11::class_<symbiomon_metric_id_t>(m, "symbiomon_metric_id_t")
-    .def_readwrite("uuid", &symbiomon_metric_id_t::uuid);
-
 
 #define MID2CAPSULE(__mid)    py11::capsule((void*)(__mid),  "margo_instance_id", nullptr)
 #define ADDR2CAPSULE(__addr)  py11::capsule((void*)(__addr), "hg_addr_t", nullptr)
 #define SYMBIOMONMH2CAPSULE(__rph) py11::capsule((void*)(__rph),  "symbiomon_metric_handle_t", nullptr)
 #define SYMBIOMONCL2CAPSULE(__rcl) py11::capsule((void*)(__rcl),  "symbiomon_client_t", nullptr)
 #define SYMBIOMONTL2CAPSULE(__rtl) py11::capsule((void*)(__rtl),  "symbiomon_taglist_t", nullptr)
-#define SYMBIOMONMI2CAPSULE(__rtl) py11::capsule((void*)(__rmi),  "symbiomon_metric_id_t", nullptr)
 
 static pysymbiomon_client_t pysymbiomon_client_init(pymargo_instance_id mid) {
     symbiomon_client_t result = SYMBIOMON_CLIENT_NULL;
@@ -39,7 +34,7 @@ static pysymbiomon_client_t pysymbiomon_client_init(pymargo_instance_id mid) {
 static pysymbiomon_metric_handle_t pysymbiomon_remote_metric_handle_create(
         pysymbiomon_client_t client,
         pymargo_addr addr,
-	pysymbiomon_metric_id_t id,
+	symbiomon_metric_id_t id,
         uint8_t provider_id) {
 
     symbiomon_metric_handle_t metricHandle = SYMBIOMON_METRIC_HANDLE_NULL;

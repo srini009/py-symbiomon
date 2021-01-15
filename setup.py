@@ -29,7 +29,7 @@ pysymbiomon_client_module = Extension('_pysymbiomonclient', ["pysymbiomon/src/cl
 		           libraries=client_libraries,
                    library_dirs=client_library_dirs,
                    include_dirs=client_include_dirs,
-                   extra_compile_args=['-std=c++11'],
+                   extra_compile_args=['-std=c++11 -Wall'],
                    depends=["pysymbiomon/src/client.cpp"])
 
 setup(name='pysymbiomon',

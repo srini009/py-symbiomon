@@ -14,7 +14,7 @@
 namespace py11 = pybind11;
 
 typedef py11::capsule pymargo_instance_id;
-typedef py11::capsule pymargo_addr;
+typedef py11::capsule pyhg_addr_t;
 typedef py11::capsule pysymbiomon_client_t;
 typedef py11::capsule pysymbiomon_metric_handle_t;
 typedef py11::capsule pysymbiomon_taglist_t;
@@ -33,7 +33,7 @@ static pysymbiomon_client_t pysymbiomon_client_init(pymargo_instance_id mid) {
 
 static pysymbiomon_metric_handle_t pysymbiomon_remote_metric_handle_create(
         pysymbiomon_client_t client,
-        pymargo_addr addr,
+        pyhg_addr_t addr,
 	symbiomon_metric_id_t id,
         uint8_t provider_id) {
 

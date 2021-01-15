@@ -14,7 +14,7 @@ provider_id = int(sys.argv[2])
 
 client = SymbiomonClient(mid)
 addr = mid.lookup(server_addr)
-ph = client.create_provider_handle(addr, provider_id)
+ph = client.create_metric_handle(addr, 1628746916, provider_id)
 
 del ph
 del addr

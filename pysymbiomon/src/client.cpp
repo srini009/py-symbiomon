@@ -8,66 +8,51 @@
 #include <vector>
 #include <cstring>
 #include <iostream>
-#include <remi/remi-client.h>
+#include <symbiomon/symbiomon-client.h>
+#include <symbiomon/symbiomon-metric.h>
 
 namespace py11 = pybind11;
 
 typedef py11::capsule pymargo_instance_id;
 typedef py11::capsule pymargo_addr;
-typedef py11::capsule pyremi_client_t;
-typedef py11::capsule pyremi_provider_handle_t;
-typedef py11::capsule pyremi_fileset_t;
+typedef py11::capsule pysymbiomon_client_t;
+typedef py11::capsule pysymbiomon_metric_handle_t;
+typedef py11::capsule pysymbiomon_taglist_t;
+typedef py11::capsule pysymbiomon_metric_id_t;
 
 #define MID2CAPSULE(__mid)    py11::capsule((void*)(__mid),  "margo_instance_id", nullptr)
 #define ADDR2CAPSULE(__addr)  py11::capsule((void*)(__addr), "hg_addr_t", nullptr)
-#define REMIPH2CAPSULE(__rph) py11::capsule((void*)(__rph),  "remi_provider_handle_t", nullptr)
-#define REMICL2CAPSULE(__rcl) py11::capsule((void*)(__rcl),  "remi_client_t", nullptr)
-#define REMIFS2CAPSULE(__rfs) py11::capsule((void*)(__rfs),  "remi_fileset_t", nullptr)
+#define SYMBIOMONMH2CAPSULE(__rph) py11::capsule((void*)(__rph),  "symbiomon_metric_handle_t", nullptr)
+#define SYMBIOMONCL2CAPSULE(__rcl) py11::capsule((void*)(__rcl),  "symbiomon_client_t", nullptr)
+#define SYMBIOMONTL2CAPSULE(__rtl) py11::capsule((void*)(__rtl),  "symbiomon_taglist_t", nullptr)
+#define SYMBIOMONMI2CAPSULE(__rtl) py11::capsule((void*)(__rmi),  "symbiomon_metric_id_t", nullptr)
 
-static pyremi_client_t pyremi_client_init(pymargo_instance_id mid) {
-    remi_client_t result = REMI_CLIENT_NULL;
-    remi_client_init(mid, ABT_IO_INSTANCE_NULL, &result);
-    return REMICL2CAPSULE(result);
+static pysymbiomon_client_t pysymbiomon_client_init(pymargo_instance_id mid) {
+    symbiomon_client_t result = SYMBIOMON_CLIENT_NULL;
+    symbiomon_client_init(mid, &result);
+    return SYMBIOMONCL2CAPSULE(result);
 }
 
-static pyremi_provider_handle_t pyremi_provider_handle_create(
-        pyremi_client_t client,
+static pysymbiomon_metric_handle_t pysymbiomon_remote_metric_handle_create(
+        pysymbiomon_client_t client,
         pymargo_addr addr,
+	pysymbiomon_metric_id_t id,
         uint8_t provider_id) {
 
-    remi_provider_handle_t providerHandle = REMI_PROVIDER_HANDLE_NULL;
-    remi_provider_handle_create(client, addr, provider_id, &providerHandle);
-    return REMIPH2CAPSULE(providerHandle);
-}
-
-static py11::object pyremi_migrate(
-        pyremi_provider_handle_t source_ph,
-        pyremi_fileset_t fileset,
-        const std::string& dest_root,
-        bool remove_source) {
-    int ret;
-    int status = 0;
-    Py_BEGIN_ALLOW_THREADS
-    int flag = remove_source ? REMI_REMOVE_SOURCE : REMI_KEEP_SOURCE;
-    ret = remi_fileset_migrate(source_ph, fileset, dest_root.c_str(), flag, REMI_USE_MMAP, &status);
-    Py_END_ALLOW_THREADS
-    if(ret != REMI_SUCCESS) return py11::cast(false);
-    return py11::cast(status);
+    symbiomon_metric_handle_t metricHandle = SYMBIOMON_METRIC_HANDLE_NULL;
+    symbiomon_remote_metric_handle_create(client, addr, provider_id, id, &metricHandle);
+    return SYMBIOMONMH2CAPSULE(metricHandle);
 }
 
 
-PYBIND11_MODULE(_pyremiclient, m)
+PYBIND11_MODULE(_pysymbiomonclient, m)
 {
-    py11::module::import("_pyremifileset");
-    m.def("client_init", &pyremi_client_init);
-    m.def("client_finalize", [](pyremi_client_t clt) {
-            return remi_client_finalize(clt);} );
-    m.def("provider_handle_create", &pyremi_provider_handle_create);
-    m.def("provider_handle_ref_incr", [](pyremi_provider_handle_t prph) {
-            return remi_provider_handle_ref_incr(prph); });
-    m.def("provider_handle_release", [](pyremi_provider_handle_t prph) {
-            return remi_provider_handle_release(prph); });
-    m.def("migrate", &pyremi_migrate);
-    m.def("shutdown_service", [](pyremi_client_t client, pymargo_addr addr) {
-            return remi_shutdown_service(client, addr); });
+    m.def("client_init", &pysymbiomon_client_init);
+    m.def("client_finalize", [](pysymbiomon_client_t clt) {
+            return symbiomon_client_finalize(clt);} );
+    m.def("metric_handle_create", &pysymbiomon_metric_handle_create);
+    m.def("metric_handle_ref_incr", [](pysymbiomon_metric_handle_t prmh) {
+            return symbiomon_remote_metric_handle_ref_incr(prmh); });
+    m.def("metric_handle_release", [](pysymbiomon_metric_handle_t prmh) {
+            return symbiomon_remote_metric_handle_release(prmh); });
 }

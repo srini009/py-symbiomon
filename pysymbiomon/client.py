@@ -29,7 +29,7 @@ class SymbiomonClient():
             metric_id (int): ID of the metric.
 	    provider_id(int): ID of the provider
         """
-        ph = _pysymbiomonclient.metric_handle_create(self._client, addr.get_hg_addr(), metric_id, provider_id)
+        ph = _pysymbiomonclient.metric_handle_create(self._client, addr.get_internal_hg_addr(), metric_id, provider_id)
         return SymbiomonMetricHandle(ph)
 
     def finalize(self):

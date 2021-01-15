@@ -18,7 +18,10 @@ typedef py11::capsule pymargo_addr;
 typedef py11::capsule pysymbiomon_client_t;
 typedef py11::capsule pysymbiomon_metric_handle_t;
 typedef py11::capsule pysymbiomon_taglist_t;
-typedef py11::capsule pysymbiomon_metric_id_t;
+//typedef py11::capsule pysymbiomon_metric_id_t;
+py11::class_<symbiomon_metric_id_t>(m, "symbiomon_metric_id_t")
+    .def_readwrite("uuid", &symbiomon_metric_id_t::uuid);
+
 
 #define MID2CAPSULE(__mid)    py11::capsule((void*)(__mid),  "margo_instance_id", nullptr)
 #define ADDR2CAPSULE(__addr)  py11::capsule((void*)(__addr), "hg_addr_t", nullptr)

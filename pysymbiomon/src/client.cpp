@@ -47,7 +47,10 @@ PYBIND11_MODULE(_pysymbiomonclient, m)
 {
     m.def("client_init", &pysymbiomon_client_init);
     m.def("client_finalize", [](pysymbiomon_client_t clt) {
-            return symbiomon_client_finalize(clt);} );
+            int ret;
+            ret = symbiomon_client_finalize(clt);
+            if(ret == SYMBIOMON_SUCCESS) return;
+            throw std::runtime_error(std::string("symbiomon_client_finalize returned ")+std::to_string(ret));});
     m.def("metric_handle_create", &pysymbiomon_remote_metric_handle_create);
     m.def("metric_handle_ref_incr", [](pysymbiomon_metric_handle_t prmh) {
             int ret;
@@ -58,5 +61,5 @@ PYBIND11_MODULE(_pysymbiomonclient, m)
             int ret;
             ret = symbiomon_remote_metric_handle_release(prmh);
             if(ret == SYMBIOMON_SUCCESS) return;
-            throw std::runtime_error(std::string("symbiomon_remote_metric_handle_ref_incr returned ")+std::to_string(ret));});
+            throw std::runtime_error(std::string("symbiomon_remote_metric_handle_release returned ")+std::to_string(ret));});
 }

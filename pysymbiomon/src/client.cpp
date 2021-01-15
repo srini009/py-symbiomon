@@ -26,6 +26,7 @@ typedef py11::capsule pysymbiomon_metric_id_t;
 #define SYMBIOMONCL2CAPSULE(__rcl) py11::capsule((void*)(__rcl),  "symbiomon_client_t", nullptr)
 #define SYMBIOMONTL2CAPSULE(__rtl) py11::capsule((void*)(__rtl),  "symbiomon_taglist_t", nullptr)
 #define SYMBIOMONMI2CAPSULE(__rtl) py11::capsule((void*)(__rmi),  "symbiomon_metric_id_t", nullptr)
+#define CAPSULE2SYMBIOMONMI(__caps)  (symbiomon_metric_id_t)(__caps)
 
 static pysymbiomon_client_t pysymbiomon_client_init(pymargo_instance_id mid) {
     symbiomon_client_t result = SYMBIOMON_CLIENT_NULL;
@@ -40,7 +41,7 @@ static pysymbiomon_metric_handle_t pysymbiomon_remote_metric_handle_create(
         uint8_t provider_id) {
 
     symbiomon_metric_handle_t metricHandle = SYMBIOMON_METRIC_HANDLE_NULL;
-    symbiomon_remote_metric_handle_create(client, addr, provider_id, id, &metricHandle);
+    symbiomon_remote_metric_handle_create(client, addr, provider_id, CAPSULE2SYMBIOMONMI(id), &metricHandle);
     return SYMBIOMONMH2CAPSULE(metricHandle);
 }
 

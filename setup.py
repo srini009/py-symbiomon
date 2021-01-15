@@ -22,8 +22,8 @@ client_include_dirs.append(".")
 client_include_dirs.append(pybind11.get_include())
 #Ideally, these lines should not be here for the client, but for now, its okay
 pk = pkgconfig.parse('symbiomon-server')
-client_libraries.append(pk['libraries'])
-client_library_dirs.append(pk['library_dirs'])
+client_libraries += pk['libraries']
+client_library_dirs += pk['library_dirs']
 
 pysymbiomon_client_module = Extension('_pysymbiomonclient', ["pysymbiomon/src/client.cpp"],
 		           libraries=client_libraries,

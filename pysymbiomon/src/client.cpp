@@ -18,13 +18,11 @@ typedef py11::capsule pymargo_instance_id;
 typedef py11::capsule pyhg_addr_t;
 typedef py11::capsule pysymbiomon_client_t;
 typedef py11::capsule pysymbiomon_metric_handle_t;
-typedef py11::capsule pysymbiomon_taglist_t;
 
 #define MID2CAPSULE(__mid)    py11::capsule((void*)(__mid),  "margo_instance_id", nullptr)
 #define ADDR2CAPSULE(__addr)  py11::capsule((void*)(__addr), "hg_addr_t", nullptr)
 #define SYMBIOMONMH2CAPSULE(__rph) py11::capsule((void*)(__rph),  "symbiomon_metric_handle_t", nullptr)
 #define SYMBIOMONCL2CAPSULE(__rcl) py11::capsule((void*)(__rcl),  "symbiomon_client_t", nullptr)
-#define SYMBIOMONTL2CAPSULE(__rtl) py11::capsule((void*)(__rtl),  "symbiomon_taglist_t", nullptr)
 
 static pysymbiomon_client_t pysymbiomon_client_init(pymargo_instance_id mid) {
     symbiomon_client_t result = SYMBIOMON_CLIENT_NULL;
@@ -43,7 +41,7 @@ static pysymbiomon_metric_handle_t pysymbiomon_remote_metric_handle_create(
     return SYMBIOMONMH2CAPSULE(metricHandle);
 }
 
-static uint64_t pysymbiomon_remote_metric_get_id(
+static char* pysymbiomon_remote_metric_get_id(
         char *ns, 
         char *name, 
         const std::vector<std::string> &taglist,
@@ -58,9 +56,12 @@ static uint64_t pysymbiomon_remote_metric_get_id(
         strcpy(t->taglist[item - taglist.begin()], (*item).c_str());
         std::cout << (*item).c_str() << " ";
     }
-    symbiomon_remote_metric_get_id(ns, name, t, &id);
-    fprintf(stderr, "ID I get at Python-C++ interface is :%d\n", id);
-    return id; 
+    int ret = symbiomon_remote_metric_get_id(ns, name, t, &id);
+    if(ret == SYMBIOMON_SUCCESS) {
+       return std::to_string(id).c_str();
+    } else {
+       return "NULL";
+    }
 }
 
 PYBIND11_MODULE(_pysymbiomonclient, m)

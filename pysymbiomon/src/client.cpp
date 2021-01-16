@@ -45,7 +45,7 @@ static pysymbiomon_metric_handle_t pysymbiomon_remote_metric_handle_create(
 static symbiomon_metric_id_t pysymbiomon_remote_metric_get_id(
         char *ns, 
         char *name, 
-        py11::list taglist,
+        const std::vector<std::string> &taglist,
         uint32_t num_tags) {
 
     symbiomon_metric_id_t id;

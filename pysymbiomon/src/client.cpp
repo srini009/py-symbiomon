@@ -41,7 +41,7 @@ static pysymbiomon_metric_handle_t pysymbiomon_remote_metric_handle_create(
     return SYMBIOMONMH2CAPSULE(metricHandle);
 }
 
-static char* pysymbiomon_remote_metric_get_id(
+static const char* pysymbiomon_remote_metric_get_id(
         char *ns, 
         char *name, 
         const std::vector<std::string> &taglist,

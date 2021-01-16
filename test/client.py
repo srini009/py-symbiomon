@@ -15,6 +15,7 @@ provider_id = int(sys.argv[2])
 client = SymbiomonClient(mid)
 addr = mid.lookup(server_addr)
 ph = client.create_metric_handle(addr, 1628746916, provider_id)
+id_ = client.metric_get_id("srini", "testmetric", ["tag1", "tag2", "tag3"])
 
 del ph
 del addr

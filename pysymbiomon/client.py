@@ -33,6 +33,14 @@ class SymbiomonClient():
         return SymbiomonMetricHandle(ph)
 
     def metric_get_id(self, metric_ns, metric_name, taglist):
+        """
+        Gets the metric id associated with the name, namespace, and taglist
+
+        Args:
+            name (str): Metric name.
+            ns (str): Metric namespace.
+	    taglist(list[str]): Taglist.
+        """
         return _pysymbiomonclient.metric_get_id(metric_ns, metric_name, taglist, len(taglist))
 
     def finalize(self):

@@ -50,9 +50,14 @@ static symbiomon_metric_id_t pysymbiomon_remote_metric_get_id(
         uint32_t num_tags) {
 
     symbiomon_metric_id_t id;
-    for (auto item : taglist)
+    symbiomon_taglist_t t = (symbiomon_taglist_t)malloc(sizeof(*t));
+    t->num_Tags = num_tags;
+    t->taglist = (char**)malloc(num_tags*sizeof(char*));
+    for (auto item = taglist.begin(), int i=0: item != taglist.end(); item++, i++)
+        t->taglist[i] = (char*)malloc(36*sizeof(char));
+        strcpy(t->taglist[i], item.c_str();
         std::cout << item << " ";
-    //symbiomon_remote_metric_get_id(ns, name, taglist, &id);
+    symbiomon_remote_metric_get_id(ns, name, t, &id);
     return id; 
 }
 

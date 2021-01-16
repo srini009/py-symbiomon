@@ -41,7 +41,7 @@ class SymbiomonClient():
             ns (str): Metric namespace.
 	    taglist(list[str]): Taglist.
         """
-        return int(_pysymbiomonclient.metric_get_id(metric_ns, metric_name, taglist, len(taglist)))
+        return _pysymbiomonclient.metric_get_id(metric_ns, metric_name, taglist, len(taglist))
 
     def finalize(self):
         """

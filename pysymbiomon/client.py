@@ -32,7 +32,7 @@ class SymbiomonClient():
         ph = _pysymbiomonclient.metric_handle_create(self._client, addr.get_internal_hg_addr(), metric_id, provider_id)
         return SymbiomonMetricHandle(ph)
 
-    def metric_get_id(self, metric_ns, metric_name, taglist)
+    def metric_get_id(self, metric_ns, metric_name, taglist):
         return _pysymbiomonclient.metric_get_id(metric_ns, metric_name, len(taglist), taglist)
 
     def finalize(self):

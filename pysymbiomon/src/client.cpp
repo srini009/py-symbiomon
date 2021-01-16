@@ -59,6 +59,7 @@ static symbiomon_metric_id_t pysymbiomon_remote_metric_get_id(
         std::cout << (*item).c_str() << " ";
     }
     symbiomon_remote_metric_get_id(ns, name, t, &id);
+    fprintf(stderr, "ID I get at Python-C++ interface is :%d\n", id);
     return id; 
 }
 

@@ -41,7 +41,7 @@ static pysymbiomon_metric_handle_t pysymbiomon_remote_metric_handle_create(
     return SYMBIOMONMH2CAPSULE(metricHandle);
 }
 
-static const char* pysymbiomon_remote_metric_get_id(
+static std::string pysymbiomon_remote_metric_get_id(
         char *ns, 
         char *name, 
         const std::vector<std::string> &taglist,
@@ -58,9 +58,9 @@ static const char* pysymbiomon_remote_metric_get_id(
     }
     int ret = symbiomon_remote_metric_get_id(ns, name, t, &id);
     if(ret == SYMBIOMON_SUCCESS) {
-       return std::to_string(id).c_str();
+       return std::to_string(id);
     } else {
-       return "NULL";
+       return std::string("NULL");
     }
 }
 

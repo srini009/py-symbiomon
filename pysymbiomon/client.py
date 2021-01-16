@@ -33,7 +33,7 @@ class SymbiomonClient():
         return SymbiomonMetricHandle(ph)
 
     def metric_get_id(self, metric_ns, metric_name, taglist):
-        return _pysymbiomonclient.metric_get_id(metric_ns, metric_name, len(taglist), taglist)
+        return _pysymbiomonclient.metric_get_id(metric_ns, metric_name, taglist, len(taglist))
 
     def finalize(self):
         """

@@ -42,6 +42,18 @@ static pysymbiomon_metric_handle_t pysymbiomon_remote_metric_handle_create(
     return SYMBIOMONMH2CAPSULE(metricHandle);
 }
 
+static symbiomon_metric_id_t pysymbiomon_remote_metric_get_id(
+        char *ns, 
+        char *name, 
+        py11:list taglist,
+        uint32_t num_tags) {
+
+    symbiomon_metric_id_t id;
+    for (auto item : taglist)
+        std::cout << item << " ";
+    //symbiomon_remote_metric_get_id(ns, name, taglist, &id);
+    return id; 
+}
 
 PYBIND11_MODULE(_pysymbiomonclient, m)
 {
@@ -52,6 +64,7 @@ PYBIND11_MODULE(_pysymbiomonclient, m)
             if(ret == SYMBIOMON_SUCCESS) return;
             throw std::runtime_error(std::string("symbiomon_client_finalize returned ")+std::to_string(ret));});
     m.def("metric_handle_create", &pysymbiomon_remote_metric_handle_create);
+    m.def("metric_get_id", &pysymbiomon_remote_metric_get_id);
     m.def("metric_handle_ref_incr", [](pysymbiomon_metric_handle_t prmh) {
             int ret;
             ret = symbiomon_remote_metric_handle_ref_incr(prmh);

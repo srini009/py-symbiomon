@@ -7,6 +7,7 @@
 #include <pybind11/stl.h>
 #include <string>
 #include <vector>
+#include <pair>
 #include <cstring>
 #include <iostream>
 #include <symbiomon/symbiomon-client.h>
@@ -41,6 +42,30 @@ static pysymbiomon_metric_handle_t pysymbiomon_remote_metric_handle_create(
     return SYMBIOMONMH2CAPSULE(metricHandle);
 }
 
+
+static std::vector<std::pair> pysymbiomon_remote_metric_fetch(
+        pysymbiomon_metric_handle_t handle,
+        uint32_t num_samples_requested) {
+
+    char *name, *ns;
+    symbiomon_metric_buffer buf;
+    int num = num_samples_requested;
+    int ret = symbiomon_remote_metric_fetch(handle, &num, &buf, &name, &ns);
+    std::vector<std::pair <double, double> > buffer;
+    fprintf(stderr, "Requested for %d samples, returned : %d\n", num_samples_requested, num);
+
+    if(ret === SYMBIOMON_SUCCESS) {
+       for(int i = 0; i < num; i++) {
+          buffer.push_back(make_pair(buf[i].val, buf[i].time));
+          std::cout << "Time: " << buf[i].val << ", Val: " << buf[i].time;
+       }
+    } else {
+       buffer.push_back(make_pair(0.0, -1.0));
+    }
+    return buffer;
+}       
+
+    
 static symbiomon_metric_id_t pysymbiomon_remote_metric_get_id(
         char *ns, 
         char *name, 
@@ -74,6 +99,7 @@ PYBIND11_MODULE(_pysymbiomonclient, m)
             throw std::runtime_error(std::string("symbiomon_client_finalize returned ")+std::to_string(ret));});
     m.def("metric_handle_create", &pysymbiomon_remote_metric_handle_create);
     m.def("metric_get_id", &pysymbiomon_remote_metric_get_id);
+    m.def("metric_fetch", &pysymbiomon_remote_metric_fetch);
     m.def("metric_handle_ref_incr", [](pysymbiomon_metric_handle_t prmh) {
             int ret;
             ret = symbiomon_remote_metric_handle_ref_incr(prmh);

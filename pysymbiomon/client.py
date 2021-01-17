@@ -71,6 +71,14 @@ class SymbiomonMetricHandle():
         """
         _pysymbiomonclient.metric_handle_ref_incr(self._ph)
 
+    def metric_fetch(self, num_samples):
+        """
+        Gets a list of 'num_samples' samples of the metric with the given the metric_id from the handle provided
+
+        Args:
+            num_samples (int): Number of samples requested
+        """
+        return _pysymbiomonclient.metric_fetch(self._ph, num_samples)
 	
     def __del__(self):
         """

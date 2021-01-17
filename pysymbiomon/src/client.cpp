@@ -47,8 +47,9 @@ static std::vector<std::pair <double, double> > pysymbiomon_remote_metric_fetch(
         pysymbiomon_metric_handle_t handle,
         int64_t num_samples_requested) {
 
-    char name[37], ns[37];
-    symbiomon_metric_buffer buf;
+    char *name = (char*)malloc(sizeof(char));
+    char *ns = (char*)malloc(sizeof(char));
+    symbiomon_metric_buffer buf = (symbiomon_metric_buffer)malloc(num_samples_requested*sizeof(symbiomon_metric_sample));
     int64_t num = num_samples_requested;
     int ret = symbiomon_remote_metric_fetch(handle, &num, &buf, &name, &ns);
     std::vector<std::pair <double, double> > buffer;

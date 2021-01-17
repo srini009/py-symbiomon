@@ -38,7 +38,6 @@ static pysymbiomon_metric_handle_t pysymbiomon_remote_metric_handle_create(
         uint8_t provider_id) {
 
     symbiomon_metric_handle_t metricHandle = SYMBIOMON_METRIC_HANDLE_NULL;
-    fprintf(stderr, "Got id for handle creation: %u\n", id);
     symbiomon_remote_metric_handle_create(client, addr, provider_id, id, &metricHandle);
     return SYMBIOMONMH2CAPSULE(metricHandle);
 }
@@ -51,7 +50,7 @@ static std::vector<std::pair <double, double> > pysymbiomon_remote_metric_fetch(
     char *name, *ns;
     symbiomon_metric_buffer buf;
     int64_t num = num_samples_requested;
-    //int ret = symbiomon_remote_metric_fetch(handle, &num, &buf, &name, &ns);
+    int ret = symbiomon_remote_metric_fetch(handle, &num, &buf, &name, &ns);
     std::vector<std::pair <double, double> > buffer;
     fprintf(stderr, "Requested for %u samples, returned : %u\n", num_samples_requested, num);
 

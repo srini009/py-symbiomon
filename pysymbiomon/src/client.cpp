@@ -54,14 +54,14 @@ static std::vector<std::pair <double, double> > pysymbiomon_remote_metric_fetch(
     std::vector<std::pair <double, double> > buffer;
     fprintf(stderr, "Requested for %u samples, returned : %u\n", num_samples_requested, num);
 
-    if(ret == SYMBIOMON_SUCCESS) {
+    /*if(ret == SYMBIOMON_SUCCESS) {
        for(int i = 0; i < num; i++) {
           buffer.push_back(std::make_pair(buf[i].val, buf[i].time));
           std::cout << "Time: " << buf[i].val << ", Val: " << buf[i].time;
        }
     } else {
        buffer.push_back(std::make_pair(0.0, -1.0));
-    }
+    }*/
     return buffer;
 }       
 

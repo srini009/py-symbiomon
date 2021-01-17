@@ -45,14 +45,14 @@ static pysymbiomon_metric_handle_t pysymbiomon_remote_metric_handle_create(
 
 static std::vector<std::pair <double, double> > pysymbiomon_remote_metric_fetch(
         pysymbiomon_metric_handle_t handle,
-        uint32_t num_samples_requested) {
+        int64_t num_samples_requested) {
 
     char *name, *ns;
     symbiomon_metric_buffer buf;
-    uint64_t num = num_samples_requested;
+    int64_t num = num_samples_requested;
     int ret = symbiomon_remote_metric_fetch(handle, &num, &buf, &name, &ns);
     std::vector<std::pair <double, double> > buffer;
-    fprintf(stderr, "Requested for %d samples, returned : %u\n", num_samples_requested, num);
+    fprintf(stderr, "Requested for %u samples, returned : %u\n", num_samples_requested, num);
 
     if(ret == SYMBIOMON_SUCCESS) {
        for(int i = 0; i < num; i++) {

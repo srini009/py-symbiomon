@@ -43,7 +43,7 @@ static pysymbiomon_metric_handle_t pysymbiomon_remote_metric_handle_create(
 }
 
 
-static std::vector<std::pair> pysymbiomon_remote_metric_fetch(
+static std::vector<std::pair <double, double> > pysymbiomon_remote_metric_fetch(
         pysymbiomon_metric_handle_t handle,
         uint32_t num_samples_requested) {
 
@@ -56,11 +56,11 @@ static std::vector<std::pair> pysymbiomon_remote_metric_fetch(
 
     if(ret === SYMBIOMON_SUCCESS) {
        for(int i = 0; i < num; i++) {
-          buffer.push_back(make_pair(buf[i].val, buf[i].time));
+          buffer.push_back(std::make_pair(buf[i].val, buf[i].time));
           std::cout << "Time: " << buf[i].val << ", Val: " << buf[i].time;
        }
     } else {
-       buffer.push_back(make_pair(0.0, -1.0));
+       buffer.push_back(std::make_pair(0.0, -1.0));
     }
     return buffer;
 }       

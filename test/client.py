@@ -2,7 +2,7 @@
 # See COPYRIGHT in top-level directory.
 import sys
 sys.path.append('.')
-sys.path.append('build/lib.linux-x86_64-2.7')
+#sys.path.append('build/lib.linux-x86_64-2.7')
 import os
 from pymargo.core import Engine
 from pysymbiomon.client import *
@@ -15,13 +15,11 @@ provider_id = int(sys.argv[2])
 client = SymbiomonClient(mid)
 addr = mid.lookup(server_addr)
 id_ = client.metric_get_id("srini", "testmetric2", ["tag1", "tag2", "tag3"])
-
-#Hardcore id here for testing purposes, and id_ above returns some garbage
-#when translating back up from C++
-id_ = 1628746916
+print ("Id is ", id_)
 mh = client.create_metric_handle(addr, id_, provider_id)
 
-samples = mh.metric_fetch(3)
+samples = mh.metric_fetch(5)
+print (samples)
 
 del mh
 del addr

@@ -93,13 +93,13 @@ static std::vector<symbiomon_metric_id_t> pysymbiomon_remote_list_metrics(
         pysymbiomon_client_t client,
         pyhg_addr_t addr,
         uint8_t provider_id,        
-        uint32_t num_metrics)
+        size_t num_metrics)
 {
     int ret;
-    uint32_t num = num_metrics; 
+    size_t num = num_metrics; 
     symbiomon_metric_id_t *ids = (symbiomon_metric_id_t *)malloc(num_metrics*sizeof(symbiomon_metric_id_t));
     ret = symbiomon_remote_list_metrics(client, addr, provider_id, &ids, &num);
-    std::vector<symbomon_metric_id_t> ids_list;
+    std::vector<symbiomon_metric_id_t> ids_list;
     fprintf(stderr, "Requested for %u metrics, got %u\n", num_metrics, num);
 
     if(ret == SYMBIOMON_SUCCESS) {

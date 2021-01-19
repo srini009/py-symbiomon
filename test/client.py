@@ -21,6 +21,9 @@ mh = client.create_metric_handle(addr, id_, provider_id)
 samples = mh.metric_fetch(5)
 print (samples)
 
+metrics = client.list_metrics(addr, provider_id, 5)
+print (metrics)
+
 del mh
 del addr
 

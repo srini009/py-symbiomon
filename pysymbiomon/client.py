@@ -32,7 +32,7 @@ class SymbiomonClient():
         ph = _pysymbiomonclient.metric_handle_create(self._client, addr.get_internal_hg_addr(), metric_id, provider_id)
         return SymbiomonMetricHandle(ph)
 
-    def list_metrics(self, addr, num, provider_id):
+    def list_metrics(self, addr, provider_id, num):
         """
 	Lists upto 'num' metrics at the given provider address
 

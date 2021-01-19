@@ -89,7 +89,7 @@ static symbiomon_metric_id_t pysymbiomon_remote_metric_get_id(
     }
 }
 
-static std::vector<symbomon_metric_id_t> pysymbiomon_remote_list_metrics(
+static std::vector<symbiomon_metric_id_t> pysymbiomon_remote_list_metrics(
         pysymbiomon_client_t client,
         pyhg_addr_t addr,
         uint8_t provider_id,        
@@ -103,7 +103,7 @@ static std::vector<symbomon_metric_id_t> pysymbiomon_remote_list_metrics(
     fprintf(stderr, "Requested for %u metrics, got %u\n", num_metrics, num);
 
     if(ret == SYMBIOMON_SUCCESS) {
-        for(int i = 0; i < num; i++)
+        for(uint32_t i = 0; i < num; i++)
             ids_list.push_back(ids[i]);
     }
     return ids_list;   

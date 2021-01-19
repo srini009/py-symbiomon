@@ -32,6 +32,17 @@ class SymbiomonClient():
         ph = _pysymbiomonclient.metric_handle_create(self._client, addr.get_internal_hg_addr(), metric_id, provider_id)
         return SymbiomonMetricHandle(ph)
 
+    def list_metrics(self, addr, num, provider_id):
+        """
+	Lists upto 'num' metrics at the given provider address
+
+        Args:
+            addr (MargoAddress): Address of the Symbiomon metric.
+            num (int): ID of the metric.
+	    provider_id(int): ID of the provider
+        """
+        return _pysymbiomonclient.metric_list(self._client, addr.get_internal_hg_addr(), provider_id, num)
+
     def metric_get_id(self, metric_ns, metric_name, taglist):
         """
         Gets the metric id associated with the name, namespace, and taglist

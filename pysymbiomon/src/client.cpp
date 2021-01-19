@@ -61,8 +61,6 @@ static std::vector<std::pair <double, double> > pysymbiomon_remote_metric_fetch(
           buffer.push_back(std::make_pair(buf[i].val, buf[i].time));
           fprintf(stderr, "Val: %lf, Time: %lf\n", buf[i].val, buf[i].time);
        }
-    } else {
-       buffer.push_back(std::make_pair(0.0, -1.0));
     }
     return buffer;
 }       
@@ -91,6 +89,26 @@ static symbiomon_metric_id_t pysymbiomon_remote_metric_get_id(
     }
 }
 
+static std::vector<symbomon_metric_id_t> pysymbiomon_remote_list_metrics(
+        pysymbiomon_client_t client,
+        pyhg_addr_t addr,
+        uint8_t provider_id,        
+        uint32_t num_metrics)
+{
+    int ret;
+    uint32_t num = num_metrics; 
+    symbiomon_metric_id_t *ids = (symbiomon_metric_id_t *)malloc(num_metrics*sizeof(symbiomon_metric_id_t));
+    ret = symbiomon_remote_list_metrics(client, addr, provider_id, &ids, &num);
+    std::vector<symbomon_metric_id_t> ids_list;
+    fprintf(stderr, "Requested for %u metrics, got %u\n", num_metrics, num);
+
+    if(ret == SYMBIOMON_SUCCESS) {
+        for(int i = 0; i < num; i++)
+            ids_list.push_back(ids[i]);
+    }
+    return ids_list;   
+}
+        
 PYBIND11_MODULE(_pysymbiomonclient, m)
 {
     m.def("client_init", &pysymbiomon_client_init);
@@ -101,6 +119,7 @@ PYBIND11_MODULE(_pysymbiomonclient, m)
             throw std::runtime_error(std::string("symbiomon_client_finalize returned ")+std::to_string(ret));});
     m.def("metric_handle_create", &pysymbiomon_remote_metric_handle_create);
     m.def("metric_get_id", &pysymbiomon_remote_metric_get_id);
+    m.def("metric_list", &pysymbiomon_remote_list_metrics);
     m.def("metric_fetch", &pysymbiomon_remote_metric_fetch);
     m.def("metric_handle_ref_incr", [](pysymbiomon_metric_handle_t prmh) {
             int ret;

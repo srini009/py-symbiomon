@@ -56,12 +56,12 @@ static std::vector<std::pair <double, double> > pysymbiomon_remote_metric_fetch(
 
     fprintf(stderr, "Requested for %u samples of metric with name: %s, and ns: %s, returned : %u\n", num_samples_requested, name, ns, num);
 
-    if(ret == SYMBIOMON_SUCCESS) {
+    /*if(ret == SYMBIOMON_SUCCESS) {
        for(int i = 0; i < num; i++) {
           buffer.push_back(std::make_pair(buf[i].val, buf[i].time));
           fprintf(stderr, "Val: %lf, Time: %lf\n", buf[i].val, buf[i].time);
        }
-    }
+    }*/
     return buffer;
 }       
 
@@ -120,6 +120,7 @@ PYBIND11_MODULE(_pysymbiomonclient, m)
     m.def("metric_handle_create", &pysymbiomon_remote_metric_handle_create);
     m.def("metric_get_id", &pysymbiomon_remote_metric_get_id);
     m.def("metric_list", &pysymbiomon_remote_list_metrics);
+    m.def("metric_list_names", &pysymbiomon_remote_list_metric_names);
     m.def("metric_fetch", &pysymbiomon_remote_metric_fetch);
     m.def("metric_handle_ref_incr", [](pysymbiomon_metric_handle_t prmh) {
             int ret;

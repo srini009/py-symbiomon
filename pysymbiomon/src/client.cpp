@@ -61,9 +61,10 @@ static std::vector<std::pair <double, double> > pysymbiomon_remote_metric_fetch(
           buffer.push_back(std::make_pair(buf[i].val, buf[i].time));
           fprintf(stderr, "Val: %lf, Time: %lf\n", buf[i].val, buf[i].time);
        }
-    }
+    } 
 
-    return buffer;
+    return NULL;
+    //return buffer;
 }       
 
     

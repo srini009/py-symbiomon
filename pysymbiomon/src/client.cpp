@@ -120,7 +120,6 @@ PYBIND11_MODULE(_pysymbiomonclient, m)
     m.def("metric_handle_create", &pysymbiomon_remote_metric_handle_create);
     m.def("metric_get_id", &pysymbiomon_remote_metric_get_id);
     m.def("metric_list", &pysymbiomon_remote_list_metrics);
-    m.def("metric_list_names", &pysymbiomon_remote_list_metric_names);
     m.def("metric_fetch", &pysymbiomon_remote_metric_fetch);
     m.def("metric_handle_ref_incr", [](pysymbiomon_metric_handle_t prmh) {
             int ret;

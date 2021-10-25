@@ -43,8 +43,7 @@ static pysymbiomon_metric_handle_t pysymbiomon_remote_metric_handle_create(
 }
 
 
-//static std::vector<std::pair <double, double> > pysymbiomon_remote_metric_fetch(
-static void pysymbiomon_remote_metric_fetch(
+static std::vector<std::pair <double, double> > pysymbiomon_remote_metric_fetch(
         pysymbiomon_metric_handle_t handle,
         int64_t num_samples_requested) {
 
@@ -64,8 +63,7 @@ static void pysymbiomon_remote_metric_fetch(
        }
     } 
 
-    return;
-    //return buffer;
+    return buffer;
 }       
 
     

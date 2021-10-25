@@ -63,7 +63,8 @@ static std::vector<std::pair <double, double> > pysymbiomon_remote_metric_fetch(
        }
     } 
 
-    return buffer;
+    return NULL;
+    //return buffer;
 }       
 
     

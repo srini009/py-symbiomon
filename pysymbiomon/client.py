@@ -89,7 +89,7 @@ class SymbiomonMetricHandle():
         Args:
             num_samples (int): Number of samples requested
         """
-        return _pysymbiomonclient.metric_fetch(self._ph, num_samples)
+        _pysymbiomonclient.metric_fetch(self._ph, num_samples)
 	
     def __del__(self):
         """

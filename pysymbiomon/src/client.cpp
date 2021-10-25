@@ -64,7 +64,7 @@ static void pysymbiomon_remote_metric_fetch(
        }
     } 
 
-    return NULL;
+    return;
     //return buffer;
 }       
 
